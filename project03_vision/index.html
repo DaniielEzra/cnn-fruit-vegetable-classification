@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fruit &amp; Vegetable Classifier</title>
+  <meta name="description" content="Upload a photo of an apple, avocado, banana, eggplant or tomato and a CNN tells you which one it sees.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍅</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="wrap header-inner">
+      <div>
+        <h1>Fruit &amp; Vegetable Classifier</h1>
+        <p class="lead">Upload a photo of an apple, avocado, banana, eggplant or tomato. A convolutional neural network will tell you which one it sees.</p>
+      </div>
+      <p id="server-status" class="status status--checking" role="status">Checking the model…</p>
+    </div>
+  </header>
+
+  <main class="wrap layout">
+    <!-- Left: choose and preview the image -->
+    <section class="panel" aria-labelledby="image-heading">
+      <h2 id="image-heading">Your image</h2>
+
+      <div id="drop-zone" class="drop-zone" tabindex="0" aria-describedby="drop-hint">
+        <img id="preview" class="preview" alt="Preview of the selected image" hidden>
+        <div id="drop-empty" class="drop-empty">
+          <svg class="drop-icon" viewBox="0 0 48 48" aria-hidden="true"><path d="M24 31V13m0 0-7 7m7-7 7 7M10 33v4a3 3 0 0 0 3 3h22a3 3 0 0 0 3-3v-4" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <p class="drop-title">Drop an image here</p>
+          <p id="drop-hint" class="drop-hint">or use the buttons below. JPEG, PNG, WEBP, BMP or GIF, up to 10 MB.</p>
+        </div>
+      </div>
+      <p id="file-name" class="file-name" hidden></p>
+
+      <!-- Hidden file inputs, opened by the buttons -->
+      <input id="file-input" type="file" accept="image/*" hidden>
+      <input id="camera-input" type="file" accept="image/*" capture="environment" hidden>
+
+      <div class="actions">
+        <button id="choose-btn" class="btn btn--secondary" type="button">Choose Image</button>
+        <button id="camera-btn" class="btn btn--secondary" type="button">Take Photo</button>
+      </div>
+      <div class="actions">
+        <button id="classify-btn" class="btn btn--primary" type="button" disabled>Classify Image</button>
+        <button id="download-btn" class="btn btn--ghost" type="button" disabled>Download Image</button>
+        <button id="reset-btn" class="btn btn--ghost" type="button" hidden>Choose Another Image</button>
+      </div>
+
+      <p id="error" class="error" role="alert" hidden></p>
+      <p id="warning" class="warning" role="status" hidden></p>
+    </section>
+
+    <!-- Right: the result -->
+    <section class="panel" aria-labelledby="result-heading" aria-live="polite">
+      <h2 id="result-heading">Result</h2>
+
+      <div id="result-empty" class="result-empty">
+        <p>Choose an image and select <strong>Classify Image</strong>. The prediction and the confidence for all five classes will appear here.</p>
+      </div>
+
+      <div id="loading" class="loading" hidden>
+        <span class="spinner" aria-hidden="true"></span>
+        <p>Classifying your image…</p>
+      </div>
+
+      <div id="result" hidden>
+        <div id="sticker" class="sticker">
+          <p class="sticker-small">The model sees</p>
+          <p id="prediction" class="sticker-name"></p>
+          <p id="confidence" class="sticker-small"></p>
+        </div>
+        <p id="result-message" class="result-message"></p>
+
+        <h3 class="scores-heading">Confidence for each class</h3>
+        <ul id="scores" class="scores"></ul>
+      </div>
+
+      <p class="note">This model only knows five classes: apple, avocado, banana, eggplant and tomato. It cannot recognise other objects. A different object may get a wrong answer or be marked <em>unknown</em> when the best score is below <span id="threshold-note">60%</span>.</p>
+    </section>
+  </main>
+
+  <footer class="wrap site-footer">
+    <p>VISION project: a CNN trained on the Fruits 360 dataset, served with FastAPI.</p>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

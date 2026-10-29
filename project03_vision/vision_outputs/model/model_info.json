@@ -1,0 +1,28 @@
+{
+  "class_names": [
+    "Apple",
+    "Avocado",
+    "Banana",
+    "Eggplant",
+    "Tomato"
+  ],
+  "input_size": [
+    100,
+    100,
+    3
+  ],
+  "input_value_range": "0-255 (model rescales internally)",
+  "preprocessing": "EXIF transpose, alpha on white, RGB, pad to square with white, bilinear resize",
+  "confidence_threshold": 0.6,
+  "preprocessing_fingerprint": "a8ed32a1afa12854",
+  "test_accuracy": 0.9695,
+  "test_images": 918,
+  "epochs_trained": 22,
+  "quick_test": false,
+  "tensorflow_version": "2.21.0",
+  "keras_version": "3.13.2",
+  "python_version": "3.13.16",
+  "dataset_source": "github",
+  "dataset_commit": "bed1c24ee70de1569272de3882fbde88211c08b5",
+  "trained_at": "2026-10-29 17:54:51"
+}

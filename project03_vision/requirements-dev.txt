@@ -1,0 +1,13 @@
+# Extra packages for the automated tests (not needed to run the website).
+#   pip install -r requirements-dev.txt
+#   pytest
+-r requirements.txt
+pytest>=8.0
+httpx>=0.27            # used by FastAPI's TestClient
+nbformat>=5.9          # notebook structure tests
+ipython>=8.0
+# Only for tests/smoke_run_notebook.py (runs the notebook locally):
+nbclient>=0.10
+ipykernel>=6.29
+matplotlib>=3.8
+scikit-learn>=1.4

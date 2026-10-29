@@ -1,0 +1,309 @@
+/* Fruit & Vegetable Classifier styles.
+   Colours come from the produce itself: leaf green, banana yellow, tomato red. */
+
+:root {
+  color-scheme: light;
+  --paper: #f3f6f0;      /* page background, a cool pale leaf */
+  --surface: #ffffff;    /* panels */
+  --ink: #1d2a22;        /* main text */
+  --muted: #56645b;      /* secondary text */
+  --line: #d3dcd0;       /* borders */
+  --leaf: #2d6a42;       /* primary buttons */
+  --leaf-dark: #22543a;
+  --banana: #f4cb3c;     /* the result sticker */
+  --banana-ink: #3b2f05;
+  --tomato: #c8351f;     /* errors */
+  --tomato-bg: #fdecea;
+  --track: #e4ebe1;      /* empty part of progress bars */
+  --unknown: #d9ddd6;
+
+  --display: "Bricolage Grotesque", "Segoe UI", system-ui, sans-serif;
+  --body: "Atkinson Hyperlegible", "Segoe UI", system-ui, -apple-system, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    color-scheme: dark;
+    --paper: #121a15;
+    --surface: #1a241e;
+    --ink: #e9efe7;
+    --muted: #a8b6ab;
+    --line: #314036;
+    --leaf: #5fb27c;
+    --leaf-dark: #7cc896;
+    --banana: #f4cb3c;
+    --banana-ink: #2b2204;
+    --tomato: #ff8a76;
+    --tomato-bg: #3a1c17;
+    --track: #2a372f;
+    --unknown: #3a463e;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--body);
+  font-size: 1.0625rem;
+  line-height: 1.55;
+}
+
+.wrap {
+  width: 100%;
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 0 1.25rem;
+}
+
+/* ---------- Header ---------- */
+.site-header { padding: 2.5rem 0 1.5rem; }
+
+.header-inner {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+h1 {
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3.25rem);
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  margin: 0 0 0.6rem;
+}
+
+.lead {
+  margin: 0;
+  max-width: 34rem;
+  color: var(--muted);
+}
+
+.status {
+  margin: 0;
+  padding: 0.35rem 0.85rem;
+  border-radius: 999px;
+  font-size: 0.9rem;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  white-space: nowrap;
+}
+.status::before {
+  content: "";
+  display: inline-block;
+  width: 0.55rem;
+  height: 0.55rem;
+  border-radius: 50%;
+  margin-right: 0.45rem;
+  vertical-align: 0.05em;
+  background: var(--muted);
+}
+.status--ready::before { background: var(--leaf); }
+.status--error { color: var(--tomato); border-color: var(--tomato); }
+.status--error::before { background: var(--tomato); }
+
+/* ---------- Two-column layout ---------- */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (max-width: 760px) {
+  .layout { grid-template-columns: 1fr; }
+  .site-header { padding-top: 1.5rem; }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 1.25rem;
+}
+
+h2 {
+  font-family: var(--display);
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin: 0 0 1rem;
+}
+
+/* ---------- Drop zone and preview ---------- */
+.drop-zone {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: 2px dashed var(--line);
+  border-radius: 10px;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  cursor: pointer;
+  background: var(--paper);
+  transition: border-color 0.15s, background-color 0.15s;
+}
+.drop-zone:hover,
+.drop-zone.is-dragging { border-color: var(--leaf); }
+.drop-zone.has-image { border-style: solid; cursor: default; background: #fff; }
+
+.drop-empty { text-align: center; padding: 1rem; color: var(--muted); }
+.drop-icon { width: 3rem; height: 3rem; color: var(--leaf); }
+.drop-title { margin: 0.4rem 0 0.2rem; font-weight: 700; color: var(--ink); }
+.drop-hint { margin: 0; font-size: 0.92rem; }
+
+.preview {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.file-name {
+  margin: 0.5rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+
+/* ---------- Buttons ---------- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin-top: 0.9rem;
+}
+
+.btn {
+  font: inherit;
+  font-weight: 700;
+  font-size: 1rem;
+  padding: 0.7rem 1.15rem;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  min-height: 48px; /* comfortable touch target on phones */
+}
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+.btn--primary { background: var(--leaf); color: #fff; flex: 1 1 12rem; }
+.btn--primary:not(:disabled):hover { background: var(--leaf-dark); }
+
+.btn--secondary { background: transparent; color: var(--leaf); border-color: var(--leaf); flex: 1 1 8rem; }
+.btn--secondary:not(:disabled):hover { background: var(--paper); }
+
+.btn--ghost { background: transparent; color: var(--ink); border-color: var(--line); }
+.btn--ghost:not(:disabled):hover { border-color: var(--muted); }
+
+.btn:focus-visible,
+.drop-zone:focus-visible {
+  outline: 3px solid var(--banana);
+  outline-offset: 2px;
+}
+
+@media (prefers-color-scheme: dark) {
+  .btn--primary { color: #0e1a12; }
+}
+
+/* ---------- Errors ---------- */
+.warning {
+  margin: 1rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: color-mix(in srgb, var(--banana) 22%, var(--surface));
+  color: var(--ink);
+  border-left: 4px solid var(--banana);
+}
+
+.error {
+  margin: 1rem 0 0;
+  padding: 0.75rem 0.9rem;
+  border-radius: 10px;
+  background: var(--tomato-bg);
+  color: var(--tomato);
+  border-left: 4px solid var(--tomato);
+}
+
+/* ---------- Result ---------- */
+.result-empty { color: var(--muted); }
+.result-empty p { margin: 0; }
+
+.loading { display: flex; align-items: center; gap: 0.8rem; color: var(--muted); }
+.loading p { margin: 0; }
+.spinner {
+  width: 1.6rem;
+  height: 1.6rem;
+  border-radius: 50%;
+  border: 3px solid var(--track);
+  border-top-color: var(--leaf);
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* The result is shown as a produce sticker: the one bold element on the page. */
+.sticker {
+  display: inline-block;
+  min-width: 15rem;
+  padding: 1rem 2.2rem 1.1rem;
+  border-radius: 999px / 70%;
+  background: var(--banana);
+  color: var(--banana-ink);
+  text-align: center;
+  transform: rotate(-3deg);
+  box-shadow: 0 0 0 4px var(--surface), 0 0 0 6px var(--banana);
+  margin: 0.5rem 0 0.5rem 0.4rem;
+  animation: stick 0.35s cubic-bezier(.2,1.4,.4,1);
+}
+.sticker.is-unknown { background: var(--unknown); color: var(--ink); box-shadow: 0 0 0 4px var(--surface), 0 0 0 6px var(--unknown); }
+@keyframes stick { from { transform: rotate(-12deg) scale(0.7); opacity: 0; } }
+
+.sticker-small { margin: 0; font-size: 0.9rem; }
+.sticker-name {
+  margin: 0;
+  font-family: var(--display);
+  font-weight: 800;
+  font-size: clamp(2rem, 6vw, 2.75rem);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.result-message { margin: 1rem 0 0; }
+
+.scores-heading { font-size: 1rem; margin: 1.4rem 0 0.6rem; }
+
+.scores { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.65rem; }
+.score-row { display: grid; grid-template-columns: 6rem 1fr 4.2rem; align-items: center; gap: 0.7rem; }
+.score-label { font-weight: 700; }
+.score-value { text-align: right; font-variant-numeric: tabular-nums; color: var(--muted); }
+.score-row.is-top .score-value { color: var(--ink); font-weight: 700; }
+
+.bar { height: 0.8rem; border-radius: 999px; background: var(--track); overflow: hidden; }
+.bar-fill {
+  height: 100%;
+  width: 0;
+  border-radius: 999px;
+  background: var(--muted);
+  transition: width 0.6s ease-out;
+}
+.score-row.is-top .bar-fill { background: var(--leaf); }
+
+.note {
+  margin: 1.5rem 0 0;
+  padding-top: 1rem;
+  border-top: 1px solid var(--line);
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ---------- Footer ---------- */
+.site-footer { padding: 2rem 1.25rem 2.5rem; font-size: 0.9rem; color: var(--muted); }
+.site-footer p { margin: 0; }
+
+[hidden] { display: none !important; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}

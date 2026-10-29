@@ -1,0 +1,22 @@
+# VISION - Fruit & Vegetable Classifier: packages for running the website.
+#
+# IMPORTANT: TensorFlow version
+# The model must be loaded with the same TensorFlow/Keras version family that
+# trained it in Colab. Open model/model_info.json after training, find
+# "tensorflow_version", and if it is different from what pip installs, run:
+#     pip install tensorflow==<that version>
+# (For example, if model_info.json says 2.21.0 -> pip install tensorflow==2.21.0)
+# Keras 3 (included with TensorFlow 2.16 and newer) is required to load .keras files.
+tensorflow>=2.16,<3
+
+# Web server
+fastapi>=0.110
+uvicorn[standard]>=0.29
+python-multipart>=0.0.9
+
+# Image handling
+pillow>=10.0
+numpy
+
+# Only needed for test_api.py
+requests>=2.31
